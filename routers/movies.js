@@ -10,6 +10,4 @@ router.get("/", movieController.index);
 router.get("/:id", movieController.show);
 
 
-module.exports = {
-    router
-};
+module.exports = router;
