@@ -1,0 +1,25 @@
+{
+  "name": "webapp-express",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/TommasoVilla91/webapp-express#readme",
+  "bugs": {
+    "url": "https://github.com/TommasoVilla91/webapp-express/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TommasoVilla91/webapp-express.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --env-file=.env app.js",
+    "dev": "node --env-file=.env --watch app.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "mysql2": "^3.12.0"
+  }
+}
