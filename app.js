@@ -7,8 +7,8 @@ const app = express();
 const port = process.env.SERVER_PORT;
 
 app.use("/movies", moviesRouter);
-app.use(errorsHandler);
 app.use(express.static("public"));
+app.use(errorsHandler);
 app.use(unknownRoute);
 
 app.listen(port, () => {
