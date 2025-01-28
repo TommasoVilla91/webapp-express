@@ -120,7 +120,60 @@ const show = (req, res, next) => {
     });
 };
 
+const storeReview = (req, res, next) => {
+
+    const id = req.params.id;
+
+    // destrutturazione dei dati necessari del body della richiesta
+    // impostare esempio sul postman
+    const {name, vote, text} = req.body;
+
+    // prima della query, assicurarsi che esista effettivamente il libro con quel id 
+    const movieSql = `
+        SELECT *
+        FROM movies
+        WHERE id = ?;
+    `;
+    // eseguo connessione 
+    dbConnection.query(movieSql, [id], (err, movies) => {
+        if (err) {
+            next(new Error("Errore interno del server"));
+        };
+        // se trova il film con quel id 
+        if (movies.length === 0) {
+            return res.status(404).json ({
+                status: "fail",
+                message: "Film non trovato"
+            });
+        };
+
+        // SE quindi l'id è stato trovato allora impostare query sql per dire al db di inserire dentro le colonne tra parentesi i dati che poi l'utente inserirà
+        // inserisco tanti ? quante le colonne tra parentesi
+        const sql = `
+            INSERT INTO reviews(movie_id, name, vote, text)
+            VALUES (?, ?, ?, ?);
+        `;
+        // nella connessione tra le quadre inserisco tutte le colonne in ordine come le ho scritte sopra
+        dbConnection.query(sql, [id, name, vote, text], (err, movies) => {
+            if (err) {
+                next(new Error("Errore query database"));
+            };
+    
+            res.status(201).json({
+                status: success,
+                message: "Recensione aggiunta con successo"
+            });
+        });
+    });
+};
+
+const store = (req, res, next) => {
+
+}
+
 module.exports = {
     index,
-    show
+    show,
+    storeReview,
+    store
 };
