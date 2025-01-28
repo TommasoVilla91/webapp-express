@@ -128,6 +128,21 @@ const storeReview = (req, res, next) => {
     // impostare esempio sul postman
     const {name, vote, text} = req.body;
 
+    // condizione che controlla che il numero inserito sia tra 0 e 5
+    if (isNan(vote) || vote < 0 || vote > 5) {
+        return res.status(400).josn ({
+            status: "fail",
+            message: "Il voto deve essere un numero compreso tra 0 e 5"
+        });
+    };
+    // condizione che controlla che il nome sia abbastanza lungo 
+    if (name.length < 3) {
+        return res.status(400).josn ({
+            status: "fail",
+            message: "Il nome deve essere di almeno 3 caratteri"
+        });
+    };
+
     // prima della query, assicurarsi che esista effettivamente il libro con quel id 
     const movieSql = `
         SELECT *
