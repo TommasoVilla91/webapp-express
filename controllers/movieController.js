@@ -129,7 +129,7 @@ const storeReview = (req, res, next) => {
     const {name, vote, text} = req.body;
 
     // condizione che controlla che il numero inserito sia tra 0 e 5
-    if (isNan(vote) || vote < 0 || vote > 5) {
+    if (isNaN(vote) || vote < 0 || vote > 5) {
         return res.status(400).josn ({
             status: "fail",
             message: "Il voto deve essere un numero compreso tra 0 e 5"
@@ -175,7 +175,7 @@ const storeReview = (req, res, next) => {
             };
     
             res.status(201).json({
-                status: success,
+                status: "success",
                 message: "Recensione aggiunta con successo"
             });
         });
