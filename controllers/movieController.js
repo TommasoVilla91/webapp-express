@@ -20,7 +20,7 @@ const index = (req, res, next) => {
 
         // ed infine si inserisce questo nuovo parametro nell'array dei parametri
         params.push(`%${title}%`);
-    }
+    };
     
     // // se l'utente ha fornito un parametro genre
     // if (genre) {
@@ -174,7 +174,7 @@ const storeReview = (req, res, next) => {
                 next(new Error("Errore query database"));
             };
     
-            res.status(201).json({
+            return res.status(201).json({
                 status: "success",
                 message: "Recensione aggiunta con successo"
             });
@@ -184,7 +184,7 @@ const storeReview = (req, res, next) => {
 
 const store = (req, res, next) => {
 
-}
+};
 
 module.exports = {
     index,
