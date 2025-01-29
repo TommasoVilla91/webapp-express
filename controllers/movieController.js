@@ -184,9 +184,10 @@ const storeReview = (req, res, next) => {
 };
 
 const store = (req, res, next) => {
-    
+
     // estrarre nome dalla key della richiesta
-    const imageName = req.image.filename;
+    const imageName = req.file?.filename;
+    console.log(req.file);
     
     // destrutturazione del body della richiesta (non image)
     const {title, director, genre, release_year, abstract} = req.body;
@@ -201,14 +202,14 @@ const store = (req, res, next) => {
 
     // query sql per dire al db di inserire dentro le colonne tra parentesi i dati
     const sql = `
-        INSERT INTO reviews(slug, title, director, genre, release_year, abstract, image)
+        INSERT INTO movies(slug, title, director, genre, release_year, abstract, image)
         VALUES (?, ?, ?, ?, ?, ?, ?);
     `;
 
     // esecuzione della query
     dbConnection.query(sql, [slug, title, director, genre, release_year, abstract, imageName], (err, movies) => {
         if (err) {
-            next(new Error("Errore query database"))
+            return next(new Error("Errore query database"))
         };
 
         return res.status(201).json({
