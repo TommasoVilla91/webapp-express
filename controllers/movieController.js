@@ -1,3 +1,4 @@
+const { default: slugify } = require("slugify");
 const dbConnection = require("../data/dbConnection");
 
 const index = (req, res, next) => {
@@ -183,7 +184,38 @@ const storeReview = (req, res, next) => {
 };
 
 const store = (req, res, next) => {
+    
+    // estrarre nome dalla key della richiesta
+    const imageName = req.image.filename;
+    
+    // destrutturazione del body della richiesta (non image)
+    const {title, director, genre, release_year, abstract} = req.body;
+    
+    // libreria slugify che converte stringa del titolo in uno slug
+    const slug = slugify(title, {
+        // caratteri in minuscolo
+        lower: true,
+        // rimuove caratteri speciali
+        strict: true
+    });
 
+    // query sql per dire al db di inserire dentro le colonne tra parentesi i dati
+    const sql = `
+        INSERT INTO reviews(slug, title, director, genre, release_year, abstract, image)
+        VALUES (?, ?, ?, ?, ?, ?, ?);
+    `;
+
+    // esecuzione della query
+    dbConnection.query(sql, [slug, title, director, genre, release_year, abstract, imageName], (err, movies) => {
+        if (err) {
+            next(new Error("Errore query database"))
+        };
+
+        return res.status(201).json({
+            status: "success",
+            message: "Film aggiunto con successo"
+        });
+    });
 };
 
 module.exports = {
